@@ -1,0 +1,23 @@
+name: Sync Upstream
+
+on:
+  # 定时触发，每天 UTC 时间 3:00 运行
+  schedule:
+    - cron: '0 3 * * *'
+  # 允许手动触发
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    # 显式赋予工作流向仓库写入内容的权限
+    permissions:
+      contents: write
+    steps:
+      - name: Sync Upstream
+        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
+        with:
+          target_repo_token: ${{ secrets.GITHUB_TOKEN }}
+          upstream_repo: shuaiplus/nodewarden
+          upstream_branch: main
+          target_branch: main
